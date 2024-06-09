@@ -1,0 +1,15 @@
+#MTA server generated
+MTA Server.exe
+*.dll
+dumps/*
+mods/deathmatch/resource-cache/*
+#MTA server config files
+mods/deathmatch/*.db
+mods/deathmatch/databases/*
+mods/deathmatch/logs/*
+mods/deathmatch/*.log
+mods/deathmatch/backups/*
+mods/deathmatch/databases/*
+mods/deathmatch/*.db 
+mods/deathmatch/*.log
+#MTA server config files
