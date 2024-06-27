@@ -1,7 +1,8 @@
-create database if not exists mfrp;
+-- create database if not exists mfrp;
 use mfrp;
+
 create table if not exists users(
-	accountId INT auto_increment primary key,
+	id INT auto_increment primary key,
 	userName VARCHAR(50) not null unique,
 	userEmail VARCHAR(100) not null unique,
 	hashedPassword VARCHAR(255) not null,
