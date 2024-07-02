@@ -1,0 +1,18 @@
+/*CREATE table IF NOT EXISTS accounts(
+	id INT NOT NULL,
+	name VARCHAR(30) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	passwordHash VARCHAR(200) NOT NULL,
+	salt VARCHAR(200) NOT NULL,
+	hwSerial VARCHAR(200) NOT NULL,
+	createdAt TIMESTAMP NOT NULL,
+	PRIMARY KEY (id)
+
+
+CREATE TABLE IF NOT EXISTS chars(
+	id INT NOT NULL,
+	name VARCHAR(30) NOT NULL,
+	accountId INT NOT NULL,
+	PRIMARY KEY(id),
+	 FOREIGN KEY(accountID) REFERENCES accounts(id)
+)*/
