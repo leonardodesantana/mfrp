@@ -10,14 +10,57 @@ addEventHandler("onClientResourceStart", root, function()
         outputChatBox("AVISO: Você está utilizando a resolução de vídeo " ..x.. "x" ..y.. ". Problemas na interface gráfica podem ocorrer.")
     end
 end)
--- Create window for login/registration GUI.
+addCommandHandler("registrar", function(source)
+    outputChatBox("Informe seu usuário: ")
+    
+    local function onUsernameInput(text)
+        username = text
+        if type(username) == "string" and #username <= 30 and not tonumber(username) then
+            outputChatBox("Seu usuário " .. username .. " foi registrado! Você usará esse usuário para seu login. Agora vamos criar sua senha.")
+            removeEventHandler("onClientChatMessage", root, onUsernameInput)
+            
+            outputChatBox("DICA: use letras, números e símbolos para uma senha segura. A senha deve ter pelo menos 8 caracteres.")
+            addEventHandler("onClientChatMessage", root, onPasswordInput)
+        else
+            outputChatBox("ERRO: Seu usuário deve ser composto por alguma letra, não apenas números.")
+        end
+    end
 
-addEventHandler("onClientPlayerJoin", root, function()
-    -- Define the size and position of the window as fractions of the screen size
-    local windowWidth, windowHeight = 0.4, 0.4 -- 40% of screen width and height
-    local windowX, windowY = (1 - windowWidth) / 2, (1 - windowHeight) / 2 -- Center the window
+    local function onPasswordInput(text)
+        password = text
+        if type(password) == "string" and #password >= 8 then
+            outputChatBox("Sua senha foi registrada!")
+            removeEventHandler("onClientChatMessage", root, onPasswordInput)
+            
+            outputChatBox("Informe seu e-mail: ")
+            addEventHandler("onClientChatMessage", root, onEmailInput)
+        else
+            outputChatBox("Escolha uma senha mais forte, sua senha não atende aos requisitos.")
+        end
+    end
 
-    -- Create the window
-    local window = guiCreateWindow(windowX, windowY, windowWidth, windowHeight, "Login and Registration", true)
-end)
+    local function onEmailInput(text)
+        useremail = text
+        if type(useremail) == "string" then
+            outputChatBox("Seu registro foi concluído, aproveite o MFRP!")
+            removeEventHandler("onClientChatMessage", root, onEmailInput)
+        else
+            outputChatBox("ERRO: informe um e-mail válido!")
+        end
+    end
+    
+    -- Hashing the password for further storage on server
+    local function onAccountCreationHashPassword()
+        hashedPassword = passwordHash(password, "bcrypt", {})
+    end
 
+    -- Gathering metadata about account creation
+    local function onAccountCreationMetadata()
+        hwSerial = getPlayerSerial()
+    end
+    local function onAccountCreationGetTimestamp()
+        return os.date("%Y-%m-%d %H:%M:%S")
+    end
+    local timestamp = onAccountCreationGetTimestamp()
+    addEventHandler("onClientChatMessage", root, onUsernameInput)
+end, false)
