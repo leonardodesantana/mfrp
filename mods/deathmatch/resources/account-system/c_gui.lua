@@ -28,9 +28,16 @@ end)
 addEventHandler("onClientResourceStart", root, function()
     local editBoxW = 272
     local editBoxH = 40
-    local posX = (x-editBoxW)/2
-    local posY = (y-editBoxH)/2
+    local loginPosX = (x-editBoxW)/2
+    local loginPosY = (y-editBoxH)/2
     -- Bringing the edit box from the front of the background image
-    local usernameInput = guiCreateEdit(posX, posY, editBoxW, editBoxH, "Usuário")
+    local usernameInput = guiCreateEdit(loginPosX, loginPosY, editBoxW, editBoxH, "")
     guiBringToFront(usernameInput)
+
+    local passwordPosX = loginPosX
+    local passwordPosY = loginPosY + 80
+    
+    local passwordInput = guiCreateEdit(passwordPosX, passwordPosY, editBoxW, editBoxH, "")
+    guiBringToFront(passwordInput)
+    guiEditSetMasked(passwordInput, true)
 end)
