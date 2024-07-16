@@ -10,7 +10,7 @@ addEventHandler("onClientResourceStart", root, function()
         outputChatBox("AVISO: Você está utilizando a resolução de vídeo " ..x.. "x" ..y.. ". Problemas na interface gráfica podem ocorrer.")
     end
 end)
-
+-- Drawing static login GUI background and centering it
 addEventHandler("onClientRender", root, function() 
     local imageWidth = 320
     local imageHeight = 322
@@ -22,4 +22,15 @@ addEventHandler("onClientRender", root, function()
     else
     dxDrawImage(posX, posY, imageWidth, imageHeight, loginBg)
     end
+end)
+
+-- Adding a edit box for input data
+addEventHandler("onClientResourceStart", root, function()
+    local editBoxW = 272
+    local editBoxH = 40
+    local posX = (x-editBoxW)/2
+    local posY = (y-editBoxH)/2
+    -- Bringing the edit box from the front of the background image
+    local usernameInput = guiCreateEdit(posX, posY, editBoxW, editBoxH, "Usuário")
+    guiBringToFront(usernameInput)
 end)
