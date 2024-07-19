@@ -4,53 +4,59 @@
 local thisResource = getThisResource()
 local resourceRoot = getResourceRootElement(thisResource)
 
-addEventHandler("onClientResourceStart", root, function()
-    x, y = guiGetScreenSize()
+addEventHandler("onClientResourceStart", resourceRoot, function()
+    local x, y = guiGetScreenSize()
     if (x <= 800) and (y <= 600) then
-        outputChatBox("AVISO: Você está utilizando a resolução de vídeo " ..x.. "x" ..y.. ". Problemas na interface gráfica podem ocorrer.")
+        outputChatBox("AVISO: Você está utilizando a resolução de vídeo " .. x .. "x" .. y .. ". Problemas na interface gráfica podem ocorrer.")
     end
---end)
---[[ Drawing static login GUI background and centering it
-addEventHandler("onClientRender", root, function() 
-    local imageWidth = 320
-    local imageHeight = 322
-    local posX = (x-imageWidth)/2
-    local posY = (y-imageHeight)/2
-    local loginBg = "bglogin.png"
-    if not fileExists(loginBg) then
-        outputChatBox("Error: " ..loginBg.. " not found!")
-    else
-    dxDrawImage(posX, posY, imageWidth, imageHeight, loginBg)
-    end
-end)]]--
+    local editBoxW = 272
+    local editBoxH = 40
+    local loginPosX = (x - editBoxW) / 2
+    local loginPosY = (y - editBoxH) / 2
 
--- Adding a edit box for input data
---addEventHandler("onClientResourceStart", root, function()
-    editBoxW = 272
-    editBoxH = 40
-    loginPosX = (x-editBoxW)/2
-    loginPosY = (y-editBoxH)/2
-    -- Bringing the edit box from the front of the background image
+    -- Create username input box
     usernameInput = guiCreateEdit(loginPosX, loginPosY, editBoxW, editBoxH, "")
     guiBringToFront(usernameInput)
 
-    passwordPosX = loginPosX
-    passwordPosY = loginPosY + 80
-    
+    -- Create password input box
+    local passwordPosX = loginPosX
+    local passwordPosY = loginPosY + 80
     passwordInput = guiCreateEdit(passwordPosX, passwordPosY, editBoxW, editBoxH, "")
     guiBringToFront(passwordInput)
     guiEditSetMasked(passwordInput, true)
 
-    -- Creating a sign in button
-    buttonXPos = passwordPosX
-    buttonYPos = passwordPosY + 55
-    button = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Sign in", false)
---end)
+    -- Show cursor
+    showCursor(true)
 
-addEventHandler("onClientGUIClick", button, function() 
-    fedUsername = guiGetText(usernameInput)
-    fedPassword = guiGetText(passwordInput)
-    -- Lil debug sumthing
-    outputChatBox("Login feito com suceesso. Seja bem-vindo " ..fedUsername.. "! Proteja sua senha " ..fedPassword.. ". Não aprenda pela dor anal.")
-    end)
+    -- Initialize sign-in button after inputs are created
+    initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
 end)
+
+function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
+    local buttonXPos = passwordPosX
+    local buttonYPos = passwordPosY + 55
+    local signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Sign in", false)
+
+    -- Add event handler for sign-in button
+    addEventHandler("onClientGUIClick", signInBtn, getEditBoxString, false)
+    outputChatBox("Sign-in button initialized at (" .. buttonXPos .. ", " .. buttonYPos .. ")")
+end
+
+-- Debug strings input by the user
+function getEditBoxString(button)
+    if button == "left" then
+        if not usernameInput or not passwordInput then
+            outputChatBox("Error: Input elements are not defined.")
+            return
+        end
+
+        local fedUsername = guiGetText(usernameInput)
+        local fedPassword = guiGetText(passwordInput)
+
+        if fedUsername and fedPassword then
+            outputChatBox("Parabéns, " .. fedUsername .. "! Proteja sua senha " .. fedPassword .. ", não queira aprender pela dor anal!")
+        else
+            outputChatBox("Error: Failed to retrieve input values.")
+        end
+    end
+end
