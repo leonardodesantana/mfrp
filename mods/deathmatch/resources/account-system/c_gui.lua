@@ -52,9 +52,15 @@ function getEditBoxString(button)
 
         local fedUsername = guiGetText(usernameInput)
         local fedPassword = guiGetText(passwordInput)
+        local hashedPassword = passwordHash(fedPassword, "bcrypt", {})
+        --local hashedPasswordLen = string.len(hashedPassword)
 
         if fedUsername and fedPassword then
             outputChatBox("Parabéns, " .. fedUsername .. "! Proteja sua senha " .. fedPassword .. ", não queira aprender pela dor anal!")
+            outputChatBox("Your password is secure as: "..hashedPassword.."")
+            --outputChatBox("Hash lenght:" ..hashedPasswordLen.."")
+            -- Send user data to the server
+            triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, hashedPassword)
         else
             outputChatBox("Error: Failed to retrieve input values.")
         end

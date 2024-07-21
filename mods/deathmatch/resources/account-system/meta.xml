@@ -1,5 +1,6 @@
 <meta>
     <script src="s_account.lua" type="server" />
-    <script src="c_gui.lua" type="client" />
+    <script src="c_gui.lua" type="client"/>
     <file src='bglogin.png' />
+    <file src="devdb"/>
 </meta>
