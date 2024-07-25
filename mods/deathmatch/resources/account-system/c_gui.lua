@@ -35,7 +35,7 @@ end)
 function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
     local buttonXPos = passwordPosX
     local buttonYPos = passwordPosY + 55
-    local signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Sign in", false)
+    local signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Register", false)
 
     -- Add event handler for sign-in button
     addEventHandler("onClientGUIClick", signInBtn, getEditBoxString, false)
@@ -56,11 +56,11 @@ function getEditBoxString(button)
         --local hashedPasswordLen = string.len(hashedPassword)
 
         if fedUsername and fedPassword then
-            outputChatBox("Parabéns, " .. fedUsername .. "! Proteja sua senha " .. fedPassword .. ", não queira aprender pela dor anal!")
-            outputChatBox("Your password is secure as: "..hashedPassword.."")
-            --outputChatBox("Hash lenght:" ..hashedPasswordLen.."")
             -- Send user data to the server
             triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, hashedPassword)
+            outputChatBox("Obrigado por se registrar no MFRP, divirta-se muito e reclame muito pouco!")
+            destroyElement(guiRoot)
+            showCursor(false)
         else
             outputChatBox("Error: Failed to retrieve input values.")
         end
