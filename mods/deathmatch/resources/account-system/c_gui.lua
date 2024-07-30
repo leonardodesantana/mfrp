@@ -30,7 +30,14 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
 
     -- Initialize sign-in button after inputs are created
     initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
+    changeAlpha()
 end)
+--Testing GUI get alpha
+function changeAlpha()
+    local alphaAmount = 0.25
+    guiSetAlpha(usernameInput, alphaAmount)
+    guiSetAlpha(passwordInput, alphaAmount)
+end
 
 function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
     local buttonXPos = passwordPosX
@@ -66,3 +73,4 @@ function getEditBoxString(button)
         end
     end
 end
+
