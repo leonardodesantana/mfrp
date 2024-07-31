@@ -31,6 +31,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
     -- Initialize sign-in button after inputs are created
     initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
     changeAlpha()
+    loginPanelLink()
 end)
 --Testing GUI get alpha
 function changeAlpha()
@@ -40,9 +41,9 @@ function changeAlpha()
 end
 
 function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
-    local buttonXPos = passwordPosX
-    local buttonYPos = passwordPosY + 55
-    local signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Register", false)
+    buttonXPos = passwordPosX
+    buttonYPos = passwordPosY + 55
+    signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Register", false)
 
     -- Add event handler for sign-in button
     addEventHandler("onClientGUIClick", signInBtn, getEditBoxString, false)
@@ -67,5 +68,10 @@ function getEditBoxString()
     end
 end
 -- Adding text label so user can jump to login panel window
--- function loginPanelLink()
+function loginPanelLink()
+    loginLabelXPos = buttonXPos + 52
+    loginLabelYPos = buttonYPos + 54
+    loginLabel = guiCreateLabel(loginLabelXPos, loginLabelYPos, 1000, 100, "Já possui uma conta? Faça login.", false)
+    guiBringToFront(loginLabel)
+end
 
