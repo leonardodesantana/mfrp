@@ -72,6 +72,16 @@ function loginPanelLink()
     loginLabelXPos = buttonXPos + 52
     loginLabelYPos = buttonYPos + 54
     loginLabel = guiCreateLabel(loginLabelXPos, loginLabelYPos, 1000, 100, "Já possui uma conta? Faça login.", false)
-    guiBringToFront(loginLabel)
+
+    -- Creating a button so the user can actually click it and then jump to login panel
+    alreadyRegisteredBtn = guiCreateButton(loginLabelXPos - 16, loginLabelYPos, 200,18,"", false)
+    guiMoveToBack(alreadyRegisteredBtn)
+    guiSetAlpha(alreadyRegisteredBtn, 0)
+    guiBringToFront(alreadyRegisteredBtn)
+    addEventHandler("onClientGUIClick", alreadyRegisteredBtn, function()
+        outputChatBox("Insira seu login e senha para jogar no MFRP!")
+        destroyElement(guiRoot)
+        showCursor(false)
+    end, false)
 end
 
