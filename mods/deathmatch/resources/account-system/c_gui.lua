@@ -11,16 +11,16 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
     end
     local editBoxW = 272
     local editBoxH = 40
-    local loginPosX = (x - editBoxW) / 2
-    local loginPosY = (y - editBoxH) / 2
+    local registerPosX = (x - editBoxW) / 2
+    local registerPosY = (y - editBoxH) / 2
 
     -- Create username input box
-    usernameInput = guiCreateEdit(loginPosX, loginPosY, editBoxW, editBoxH, "")
+    usernameInput = guiCreateEdit(registerPosX, registerPosY, editBoxW, editBoxH, "")
     guiBringToFront(usernameInput)
 
     -- Create password input box
-    local passwordPosX = loginPosX
-    local passwordPosY = loginPosY + 80
+    local passwordPosX = registerPosX
+    local passwordPosY = registerPosY + 80
     passwordInput = guiCreateEdit(passwordPosX, passwordPosY, editBoxW, editBoxH, "")
     guiBringToFront(passwordInput)
     guiEditSetMasked(passwordInput, true)
@@ -50,27 +50,22 @@ function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
 end
 
 -- Debug strings input by the user
-function getEditBoxString(button)
-    if button == "left" then
-        if not usernameInput or not passwordInput then
-            outputChatBox("Error: Input elements are not defined.")
-            return
-        end
+function getEditBoxString()
+    local fedUsername = guiGetText(usernameInput)
+    local fedPassword = guiGetText(passwordInput)
+    local hashedPassword = passwordHash(fedPassword, "bcrypt", {})
+    --local hashedPasswordLen = string.len(hashedPassword)
 
-        local fedUsername = guiGetText(usernameInput)
-        local fedPassword = guiGetText(passwordInput)
-        local hashedPassword = passwordHash(fedPassword, "bcrypt", {})
-        --local hashedPasswordLen = string.len(hashedPassword)
-
-        if fedUsername and fedPassword then
-            -- Send user data to the server
-            triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, hashedPassword)
-            outputChatBox("Obrigado por se registrar no MFRP, divirta-se muito e reclame muito pouco!")
-            destroyElement(guiRoot)
-            showCursor(false)
-        else
-            outputChatBox("Error: Failed to retrieve input values.")
-        end
+    if fedUsername and fedPassword then
+        -- Send user data to the server
+        triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, hashedPassword)
+        outputChatBox("Obrigado por se registrar no MFRP, divirta-se muito e reclame muito pouco!")
+        destroyElement(guiRoot)
+        showCursor(false)
+    else
+        outputChatBox("Error: Failed to retrieve input values.")
     end
 end
+-- Adding text label so user can jump to login panel window
+-- function loginPanelLink()
 
