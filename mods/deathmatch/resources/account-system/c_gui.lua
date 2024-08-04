@@ -9,19 +9,23 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
     if (x <= 800) and (y <= 600) then
         outputChatBox("AVISO: Você está utilizando a resolução de vídeo " .. x .. "x" .. y .. ". Problemas na interface gráfica podem ocorrer.")
     end
-    local editBoxW = 272
-    local editBoxH = 40
-    local registerPosX = (x - editBoxW) / 2
-    local registerPosY = (y - editBoxH) / 2
-
+    local registerEditBoxWidth = 272
+    local registerEditBoxHeight = 40
+    local registerPosX = (x - registerEditBoxWidth) / 2
+    local registerPosY = (y - registerEditBoxHeight) / 2
+    -- Copying edit boxes position cause why not
+    loginPosX = registerPosX
+    loginPosY = registerPosY
+    loginEditBoxWidth = registerEditBoxHeight
+    loginEditBoxHeight = registerEditBoxHeight
     -- Create username input box
-    usernameInput = guiCreateEdit(registerPosX, registerPosY, editBoxW, editBoxH, "")
+    usernameInput = guiCreateEdit(registerPosX, registerPosY, registerEditBoxWidth, registerEditBoxHeight, "")
     guiBringToFront(usernameInput)
 
     -- Create password input box
-    local passwordPosX = registerPosX
-    local passwordPosY = registerPosY + 80
-    passwordInput = guiCreateEdit(passwordPosX, passwordPosY, editBoxW, editBoxH, "")
+    passwordPosX = registerPosX
+    passwordPosY = registerPosY + 80
+    passwordInput = guiCreateEdit(passwordPosX, passwordPosY, registerEditBoxWidth, registerEditBoxHeight, "")
     guiBringToFront(passwordInput)
     guiEditSetMasked(passwordInput, true)
 
@@ -29,7 +33,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
     showCursor(true)
 
     -- Initialize sign-in button after inputs are created
-    initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
+    initSignInBtn(passwordPosX, passwordPosY, registerEditBoxWidth, registerEditBoxHeight)
     changeAlpha()
     loginPanelLink()
 end)
@@ -40,10 +44,10 @@ function changeAlpha()
     guiSetAlpha(passwordInput, alphaAmount)
 end
 
-function initSignInBtn(passwordPosX, passwordPosY, editBoxW, editBoxH)
+function initSignInBtn(passwordPosX, passwordPosY, registerEditBoxWidth, registerEditBoxHeight)
     buttonXPos = passwordPosX
     buttonYPos = passwordPosY + 55
-    signInBtn = guiCreateButton(buttonXPos, buttonYPos, editBoxW, editBoxH, "Register", false)
+    signInBtn = guiCreateButton(buttonXPos, buttonYPos, registerEditBoxWidth, registerEditBoxHeight, "Register", false)
 
     -- Add event handler for sign-in button
     addEventHandler("onClientGUIClick", signInBtn, getEditBoxString, false)
@@ -81,7 +85,15 @@ function loginPanelLink()
     addEventHandler("onClientGUIClick", alreadyRegisteredBtn, function()
         outputChatBox("Insira seu login e senha para jogar no MFRP!")
         destroyElement(guiRoot)
-        showCursor(false)
+        initLoginPageGui()
     end, false)
 end
+-- Creating username GUI
+function initLoginPageGui()
+    loginPageGui = {}
 
+    loginPageGui["usernameField"] = guiCreateEdit(loginPosX, loginPosY, 272, 40, "")
+    loginPageGui["passwordField"] = guiCreateEdit(passwordPosX, passwordPosY, 272, 40, "")
+    loginPageGui["loginBtn"] = guiCreateButton(buttonXPos, buttonYPos, 272, 40, "Login")
+    showCursor(true)
+end
