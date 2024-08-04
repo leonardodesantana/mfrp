@@ -96,4 +96,5 @@ function initLoginPageGui()
     loginPageGui["passwordField"] = guiCreateEdit(passwordPosX, passwordPosY, 272, 40, "")
     loginPageGui["loginBtn"] = guiCreateButton(buttonXPos, buttonYPos, 272, 40, "Login")
     showCursor(true)
+    guiEditSetMasked(loginPageGui["passwordField"], true)
 end
