@@ -70,6 +70,7 @@ function getEditBoxString()
     else
         outputChatBox("Error: Failed to retrieve input values.")
     end
+    local fedPassword = nil
 end
 -- Adding text label so user can jump to login panel window
 function loginPanelLink()
@@ -97,4 +98,11 @@ function initLoginPageGui()
     loginPageGui["loginBtn"] = guiCreateButton(buttonXPos, buttonYPos, 272, 40, "Login")
     showCursor(true)
     guiEditSetMasked(loginPageGui["passwordField"], true)
+end
+
+function userLoginCredentials()
+    fedLoginCredentials = {}
+
+    fedLoginCredentials["fedUsername"] = guiGetText(loginPageGui["usernameField"])
+    fedLoginCredentials["fedPassword"] = guiGetText(loginPageGui["passwordField"])
 end
