@@ -32,7 +32,9 @@ addEventHandler("onResourceStart", resourceRoot, function()
 end)
 
 -- Function to insert user data into the database
-function insertUserData(username, hashedPassword)
+function insertUserData(username, password)
+
+    local hashedPassword = passwordHash(password, "bcrypt", {})
     if dbConnection then
         local query = dbExec(dbConnection, "INSERT INTO devusers(username, password) VALUES(?, ?)", username, hashedPassword)
     end

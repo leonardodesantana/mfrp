@@ -58,19 +58,22 @@ end
 function getEditBoxString()
     local fedUsername = guiGetText(usernameInput)
     local fedPassword = guiGetText(passwordInput)
-    local hashedPassword = passwordHash(fedPassword, "bcrypt", {})
+    --local hashedPassword = passwordHash(fedPassword, "bcrypt", {})
     --local hashedPasswordLen = string.len(hashedPassword)
 
     if fedUsername and fedPassword then
         -- Send user data to the server
-        triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, hashedPassword)
+        triggerServerEvent("onUserDataReceived", resourceRoot, fedUsername, fedPassword)
         outputChatBox("Obrigado por se registrar no MFRP, divirta-se muito e reclame muito pouco!")
+        userLoginCredentials()
         destroyElement(guiRoot)
         showCursor(false)
+        
     else
         outputChatBox("Error: Failed to retrieve input values.")
     end
     local fedPassword = nil
+    --local hashedPassword = nil
 end
 -- Adding text label so user can jump to login panel window
 function loginPanelLink()
@@ -99,10 +102,11 @@ function initLoginPageGui()
     showCursor(true)
     guiEditSetMasked(loginPageGui["passwordField"], true)
 end
-
+-- Storing GUI credentials
 function userLoginCredentials()
     fedLoginCredentials = {}
 
     fedLoginCredentials["fedUsername"] = guiGetText(loginPageGui["usernameField"])
     fedLoginCredentials["fedPassword"] = guiGetText(loginPageGui["passwordField"])
+    
 end
